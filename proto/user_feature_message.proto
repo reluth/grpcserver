@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package reluth.grpcserver;
+option go_package = ".;pb";
+
+message UserFeature {
+  string user_id = 1;
+  repeated float features = 2;
+}

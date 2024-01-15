@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package reluth.grpcserver;
+option go_package = ".;pb";
+
+import "user_feature_message.proto";
+
+message GetFeatureRequest {
+    string user_id = 1;
+  }
+  
+  message GetFeatureResponse {
+    repeated float feature = 1;
+  }
+  
+  message AddUserFeatureRequest {
+    UserFeature user_feature = 1;
+  }
+  
+  message AddUserFeatureResponse {
+    string user_id = 1;
+  }
+  
+  service UserFeatureService {
+    rpc AddUserFeature(AddUserFeatureRequest) returns (AddUserFeatureResponse);
+    rpc GetUserFeature(GetFeatureRequest) returns (GetFeatureResponse);
+  }

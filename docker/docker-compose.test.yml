@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file: .test.env
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres:12.8
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=user_feature
+    networks:
+      - app
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:
+networks:
+  app:
+    driver: bridge
