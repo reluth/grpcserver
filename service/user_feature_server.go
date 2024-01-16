@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/reluth/grpcserver/pb"
@@ -28,9 +29,9 @@ func (server *UserFeatureServer) AddUserFeature(ctx context.Context, req *pb.Add
 	err := server.userFeatureStore.Save(userFeature)
 	if err != nil {
 		code := codes.Internal
-		// if errors.Is(err, ErrAlreadyExists) {
-		// 	code = codes.AlreadyExists
-		// }
+		if errors.Is(err, ErrAlreadyExists) {
+			code = codes.AlreadyExists
+		}
 		return nil, status.Errorf(code, "cannot add user_feature to the store: %v", err)
 	}
 
@@ -49,9 +50,9 @@ func (server *UserFeatureServer) GetUserFeature(ctx context.Context, req *pb.Get
 	userFeature, err := server.userFeatureStore.Find(userID)
 	if err != nil {
 		code := codes.Internal
-		// if errors.Is(err, ErrAlreadyExists) {
-		// 	code = codes.NotFound
-		// }
+		if errors.Is(err, ErrAlreadyExists) {
+			code = codes.NotFound
+		}
 		return nil, status.Errorf(code, "cannot get user_feature with user_id: %v", err)
 	}
 
