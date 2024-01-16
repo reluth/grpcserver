@@ -1,9 +1,15 @@
 package service
 
 import (
+	"errors"
 	"github.com/jinzhu/gorm"
+	"github.com/lib/pq"
 	"github.com/reluth/grpcserver/model"
 	"github.com/reluth/grpcserver/pb"
+)
+
+var (
+	ErrAlreadyExists = errors.New("already exists")
 )
 
 type UserFeatureStore interface {
@@ -20,9 +26,13 @@ func NewDBUserFeatureStore(db *gorm.DB) *DBUserFeatureStore {
 }
 
 func (store *DBUserFeatureStore) Save(userFeature *pb.UserFeature) error {
-	err := store.db.Save(model.NewUserFeature(userFeature.GetUserId(), userFeature.GetFeatures())).Error
+	err := store.db.Create(model.NewUserFeature(userFeature.GetUserId(), userFeature.GetFeatures())).Error
 
 	if err != nil {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) && pqErr.Code == "23505" {
+			return ErrAlreadyExists
+		}
 		return err
 	}
 
@@ -35,6 +45,9 @@ func (store *DBUserFeatureStore) Find(userID string) (*pb.UserFeature, error) {
 	err := store.db.Where(&model.UserFeature{UserID: userID}).Take(&res).Error
 
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAlreadyExists
+		}
 		return nil, err
 	}
 
