@@ -106,7 +106,7 @@ We can test reading (GetFeature) and writing (AddUserFeature) operations to a da
 
 ![pic 4](doc/pic4.png)
 
-### Using this file to import: 
+### Using this file to import: [user_feature_service.proto](https://github.com/reluth/grpcserver/blob/main/proto/user_feature_service.proto)
 
 ![pic 5](doc/pic5.png)
 
