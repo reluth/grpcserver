@@ -15,7 +15,7 @@
 
 ## High level design
 
-Base on requirement, I have 2 optional to use Go or Java to build application
+Based on the requirements, I have two options: using Go or Java to build applications.
 
 | Aspect                   | Golang                                           | Java                                                   |
 | ------------------------ | ------------------------------------------------ | ------------------------------------------------------ |
@@ -26,9 +26,9 @@ Base on requirement, I have 2 optional to use Go or Java to build application
 | **Dockerization**        | Statically linked binaries, lightweight images.  | Requires Java runtime, larger images, JLink option.    |
 | **Error Handling**       | Explicit return values, clear.                   | Exceptions, more verbose, structured error handling.   |
 
-For a simple demo app, I prefer to use golang for clear error handling, focus on implement RPC server logic and less effort than implement using Java
+For a simple demo app, I prefer to use Golang for clear error handling, a focus on implementing RPC server logic, and less effort than implementing using Java.
 
-Also the requirement is clear data schema so I use PostgreSQL
+Also, the requirement is a clear data schema, so I use PostgreSQL.
 
 ### Dockerize and testing 
 ![pic 1](doc/pic1.png)
